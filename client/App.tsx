@@ -1,26 +1,22 @@
-import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { StatusBar } from 'expo-status-bar';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import Onboarding from "./src/Authentication/Onboarding";
-
-import { LoadAssets } from "./src/components";
-
-const fonts = {};
-
-const AuthenticationStack = createStackNavigator();
-const AuthenticationNavigator = () => {
-  return (
-    <AuthenticationStack.Navigator screenOptions={{ headerShown: false }}>
-      <AuthenticationStack.Screen name="Onboarding" component={Onboarding} />
-    </AuthenticationStack.Navigator>
-  );
-};
+import useCachedResources from './hooks/useCachedResources';
+import useColorScheme from './hooks/useColorScheme';
+import Navigation from './navigation';
 
 export default function App() {
-  return (
-    <LoadAssets {...{ fonts }}>
-      <AuthenticationNavigator />
-    </LoadAssets>
-  );
+  const isLoadingComplete = useCachedResources();
+  const colorScheme = useColorScheme();
+
+  if (!isLoadingComplete) {
+    return null;
+  } else {
+    return (
+      <SafeAreaProvider>
+        <Navigation colorScheme={colorScheme} />
+        <StatusBar />
+      </SafeAreaProvider>
+    );
+  }
 }

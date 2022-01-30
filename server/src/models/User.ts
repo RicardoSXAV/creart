@@ -1,5 +1,12 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { ObjectType, Field, ID } from 'type-graphql';
+import {
+  Entity,
+  BaseEntity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { ObjectType, Field, ID, GraphQLISODateTime } from 'type-graphql';
 
 @ObjectType()
 @Entity()
@@ -26,4 +33,12 @@ export class User extends BaseEntity {
 
   @Column()
   password: string;
+
+  @Field(() => GraphQLISODateTime)
+  @CreateDateColumn()
+  created_at: Date;
+
+  @Field(() => GraphQLISODateTime)
+  @UpdateDateColumn()
+  update_at: Date;
 }

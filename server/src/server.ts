@@ -1,16 +1,19 @@
 import 'reflect-metadata';
 import express from 'express';
+import 'dotenv/config';
+
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
-import { UserResolver } from './resolvers/UserResolver';
 
 import './database';
+import { UserResolver } from './resolvers/UserResolver';
+import { AuthResolver } from './resolvers/AuthResolver';
 
 async function runServer() {
   const app = express();
 
   const schema = await buildSchema({
-    resolvers: [UserResolver],
+    resolvers: [UserResolver, AuthResolver],
   });
 
   const apolloServer = new ApolloServer({ schema });
